@@ -7,3 +7,4 @@ create venv On terminal
 
 Step 2 : activate venv
 ```source venv/bin/activate```
+
