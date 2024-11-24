@@ -36,12 +36,13 @@ df_normalized['diagnosis'] = df['diagnosis']
 
 ##############################################
 
-#KNN
+#Split the data into training and testing sets
 X= df_normalized.drop(columns=['diagnosis'])
 y= df_normalized['diagnosis']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=50)
 
+#KNN
 knn = KNeighborsClassifier(n_neighbors=5)
 knn.fit(X_train, y_train)
 
@@ -60,11 +61,6 @@ print("Classification Report:", classification)
 
 #Decision tree classifier
 
-X= df_normalized.drop(columns=['diagnosis'])
-y= df_normalized['diagnosis']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=50)
-
 decision_tree = DecisionTreeClassifier()
 decision_tree.fit(X_train, y_train)
 
@@ -72,3 +68,41 @@ y_pred= decision_tree.predict(X_test)
 
 accuracy_dt = accuracy_score(y_test, y_pred)
 print("Accuracy:", accuracy)
+
+#trying to improve accuracy
+from sklearn.model_selection import GridSearchCV
+
+#setting up prameter grid
+param_grid = {
+    'max_depth': [3, 5, 10, None],
+    'min_samples_split': [2, 5, 10],
+    'min_samples_leaf': [1, 2, 4],
+    'criterion': ['gini', 'entropy']
+}
+
+grid_search = GridSearchCV(decision_tree, param_grid, cv=5)
+grid_search.fit(X_train, y_train)
+
+
+best_params = grid_search.best_params_
+print("Best Parameters:", best_params)
+
+#updating the decision tree
+
+best_params = {'criterion': 'entropy', 'max_depth': 10, 'min_samples_leaf': 4, 'min_samples_split': 10}
+
+decision_tree = DecisionTreeClassifier(**best_params, random_state= 50)
+decision_tree.fit(X_train, y_train)
+
+y_pred= decision_tree.predict(X_test)
+
+accuracy_dt = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+
+#cross validating because im getting the same score
+
+from sklearn.model_selection import cross_val_score
+
+cv_scores = cross_val_score(decision_tree, X, y, cv=5, scoring='accuracy')
+print("Cross-Validation Accuracy Mean:", cv_scores.mean())
+print("Cross-Validation Accuracy Std Dev:", cv_scores.std())
