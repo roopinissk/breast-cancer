@@ -50,6 +50,7 @@ knn.fit(X_train, y_train)
 
 y_pred = knn.predict(X_test)
 
+print("KNN")
 accuracy = accuracy_score(y_test, y_pred)
 print("Accuracy:", accuracy)
 
@@ -58,7 +59,7 @@ print("Confusion Matrix:", confusion_matrix)
 
 classification = classification_report(y_test, y_pred)
 print("Classification Report:", classification)
-
+print("\n")
 #########################################
 
 
