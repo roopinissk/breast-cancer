@@ -8,6 +8,8 @@ from sklearn.metrics import accuracy_score, confusion_matrix, classification_rep
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV, cross_val_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import precision_score, recall_score, f1_score
 
 #Load the csv data
 df = pd.read_csv('breast_cancer.csv')
@@ -45,22 +47,21 @@ y= df_normalized['diagnosis']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=50)
 
 #KNN
-knn = KNeighborsClassifier(n_neighbors=5)
-knn.fit(X_train, y_train)
+def knn_classifier(X_train, X_test, y_train, y_test):
+    knn = KNeighborsClassifier(n_neighbors=5)
+    knn.fit(X_train, y_train)
 
-y_pred = knn.predict(X_test)
+    y_pred = knn.predict(X_test)
 
-print("KNN")
-accuracy = accuracy_score(y_test, y_pred)
-print("Accuracy:", accuracy)
+    accuracy = accuracy_score(y_test, y_pred)
+    print("Accuracy:", accuracy)
 
-confusion_matrix = confusion_matrix(y_test, y_pred)
-print("Confusion Matrix:", confusion_matrix)
+    knn_confusion_matrix = confusion_matrix(y_test, y_pred)
+    print("Confusion Matrix:", knn_confusion_matrix)
 
-classification = classification_report(y_test, y_pred)
-print("Classification Report:", classification)
-print("\n")
-#########################################
+    # classification = classification_report(y_test, y_pred)
+    # print("Classification Report:", classification)
+    #########################################
 
 
 
@@ -73,7 +74,7 @@ def decision_tree_classifier(X_train, X_test, y_train, y_test):
     y_pred= decision_tree.predict(X_test)
 
     accuracy_dt = accuracy_score(y_test, y_pred)
-    print("Accuracy:", accuracy)
+    print("Accuracy:", accuracy_dt)
 
     #trying to improve accuracy
     from sklearn.model_selection import GridSearchCV
@@ -103,7 +104,7 @@ def decision_tree_classifier(X_train, X_test, y_train, y_test):
     y_pred= decision_tree.predict(X_test)
 
     accuracy_dt = accuracy_score(y_test, y_pred)
-    print("Accuracy:", accuracy)
+    print("Accuracy:", accuracy_dt)
 
     #cross validating because im getting the same score
 
@@ -153,12 +154,35 @@ def svm_classifier(X_train, X_test, y_train, y_test):
     print("Cross-Validation Accuracy Mean:", cv_scores.mean())
     print("Cross-Validation Accuracy Std Dev:", cv_scores.std())
 
-    # Example call
-    # svm_classifier(X_train, X_test, y_train, y_test)
+
+##############################################
+
+#logistic regression
+
+def logistic_regression(X_train, X_test, y_train, y_test):
+    model = LogisticRegression()
+    model.fit(X_train, y_train)
+
+    # Make predictions
+    y_pred = model.predict(X_test)
+
+    # Evaluate the model
+    print("Accuracy:", accuracy_score(y_test, y_pred))
+    print("Precision:", precision_score(y_test, y_pred))
+    print("Recall:", recall_score(y_test, y_pred))
+    print("F1 Score:", f1_score(y_test, y_pred))
+    # print("\nClassification Report:\n", classification_report(y_test, y_pred))
 
 if __name__ == '__main__':
+    print("\n")
+    print("KNN CLASSIFIER")
+    knn_classifier(X_train, X_test, y_train, y_test)
+    print("\n")
     print("DECISION TREE CLASSIFIER")
     decision_tree_classifier(X_train, X_test, y_train, y_test)
     print("\n")
     print("SVM CLASSIFIER")
     svm_classifier(X_train, X_test, y_train, y_test)
+    print("\n")
+    print("LOGISTIC REGRESSION")
+    logistic_regression(X_train, X_test, y_train, y_test)
