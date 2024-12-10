@@ -8,7 +8,11 @@ The standard error and worst (largest) values of these same features.
 Additional fields for diagnosis (Malignant or Benign) and a unique ID for each sample.
 
 ## Our Goal
-The primary objective is to compare two machine learning models—Support Vector Machine (SVM) and XGBoost—to evaluate their performance in predicting whether a tumor is malignant or benign. We also aim to optimize these models using feature importance techniques to improve their prediction accuracy.
+The primary objective is to compare  four different machine learning models and their performance in predicting whether a tumor is malignant or benign. We also aim to optimize these models using feature importance techniques to improve their prediction accuracy.
+1. Support Vector Machine (SVM)
+2. K-nearnest Neighbors (KNNs)
+3. Decision Trees
+4.  Logistic Regression 
 
 ## Exploratory Data Analysis (EDA)
 Initial exploratory data analysis has revealed notable differences between benign and malignant cell features. These differences may prove to be significant in improving the accuracy of our prediction models, and further investigation into these patterns will guide feature selection and model optimization.
