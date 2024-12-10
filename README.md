@@ -1,5 +1,4 @@
-# breast_cancer
-Breast Cancer Prediction
+# Comapraing Different ML methods in predicting Breast Cancer Pathology
 
 This project focuses on predicting breast cancer using the Wisconsin Breast Cancer dataset. The dataset consists of 569 samples, which are derived from Fine Needle Aspiration Cytology (FNAC) images of breast masses (biopsies). The features extracted from these images were computed into numerical values, providing the dataset with a total of 32 features. Among these features, the dataset includes:
 
